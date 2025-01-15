@@ -108,3 +108,20 @@ form .error {
     font-size: 0.9rem;
     margin-top: 10px;
 }
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-container input {
+    width: 100%;
+    padding-right: 30px; /* To make space for the eye icon */
+}
+
+.password-container .toggle-password {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: #666;
+}

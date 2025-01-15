@@ -1,14 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Track Mood</h1>
-<form action="{{ url_for('track_mood') }}" method="POST">
-    <label for="mood">Mood:</label>
-    <input type="text" id="mood" name="mood" required><br><br>
+<h2>Track Your Mood</h2>
+<form method="POST" action="/track_mood">
+    <p>Select your mood:</p>
+    {% for mood in moods %}
+    <div>
+        <input type="radio" id="{{ mood }}" name="mood" value="{{ mood }}" required>
+        <label for="{{ mood }}">{{ mood }}</label>
+    </div>
+    {% endfor %}
     
-    <label for="note">Note:</label>
-    <textarea id="note" name="note"></textarea><br><br>
+    <label for="note">Notes (optional):</label>
+    <textarea id="note" name="note"></textarea>
     
-    <button type="submit">Track Mood</button>
+    <button type="submit">Submit</button>
 </form>
 {% endblock %}
