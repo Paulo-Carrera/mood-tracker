@@ -1,0 +1,110 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #e29ff7; /* Light purple */
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
+
+nav a:hover {
+    border-bottom: 2px solid white;
+}
+
+main {
+    padding: 20px;
+    max-width: 900px;
+    margin: 40px auto;
+    background-color: white;
+    border-radius: 8px; /* Rounded corners for the content */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
+
+footer {
+    background-color: #e29ff7;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 0.9rem;
+    margin-top: 40px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+}
+
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px; /* Rounded corners for the form */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+form label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+form input:focus {
+    border-color: #e29ff7; /* Highlight border on focus */
+    outline: none;
+}
+
+form button {
+    background-color: #e29ff7;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    width: 100%;
+}
+
+form button:hover {
+    background-color: #d17ee0; /* Darker purple on hover */
+}
+
+form .error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}

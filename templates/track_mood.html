@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Track Mood</h1>
+<form action="{{ url_for('track_mood') }}" method="POST">
+    <label for="mood">Mood:</label>
+    <input type="text" id="mood" name="mood" required><br><br>
+    
+    <label for="note">Note:</label>
+    <textarea id="note" name="note"></textarea><br><br>
+    
+    <button type="submit">Track Mood</button>
+</form>
+{% endblock %}
