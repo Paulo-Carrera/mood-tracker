@@ -9,8 +9,15 @@
 </head>
 <body>
     <header>
-        <h1>Mood Tracker</h1>
-        <nav>
+        <h1>My Emote</h1>
+        <!-- Burger Menu for Mobile -->
+        <div class="burger-menu" id="burger-menu">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <!-- Navigation Links -->
+        <nav id="nav-links">
             <a href="/">Home</a>
             <a href="/track_mood">Track Mood</a>
             <a href="/get_moods">View Moods</a>
@@ -33,9 +40,18 @@
     </main>
 
     <footer>
-        <p>&copy; 2025 Mood Tracker, Inc.</p>
+        <p>&copy; My Emote</p>
     </footer>
+
     <script>
+        // Toggle the navigation menu on mobile
+        const burgerMenu = document.getElementById('burger-menu');
+        const navLinks = document.getElementById('nav-links');
+
+        burgerMenu.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+        });
+
         document.querySelectorAll('.toggle-password').forEach(function(toggle) {
             toggle.addEventListener('click', function() {
                 const targetInput = document.querySelector(this.getAttribute('data-target'));

@@ -1,3 +1,4 @@
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -5,18 +6,27 @@ body {
     background-color: #f4f4f4;
 }
 
+/* Header Styles */
 header {
     background-color: #e29ff7; /* Light purple */
     color: white;
     padding: 20px 0;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    position: relative;
 }
 
 header h1 {
     margin: 0;
     font-size: 2.5rem;
     font-weight: bold;
+}
+
+/* Navbar Styles */
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 nav a {
@@ -31,6 +41,7 @@ nav a:hover {
     border-bottom: 2px solid white;
 }
 
+/* Main content Styles */
 main {
     padding: 20px;
     max-width: 900px;
@@ -40,6 +51,7 @@ main {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
 }
 
+/* Footer Styles */
 footer {
     background-color: #e29ff7;
     color: white;
@@ -56,6 +68,7 @@ footer p {
     margin: 0;
 }
 
+/* Form Styles */
 form {
     max-width: 400px;
     margin: 0 auto;
@@ -108,6 +121,7 @@ form .error {
     font-size: 0.9rem;
     margin-top: 10px;
 }
+
 .password-container {
     position: relative;
     display: flex;
@@ -124,4 +138,62 @@ form .error {
     right: 10px;
     cursor: pointer;
     color: #666;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    /* Header & Nav Adjustments for Mobile */
+    header {
+        padding: 15px 0;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    nav {
+        display: none; /* Hide the navigation by default */
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav a {
+        margin: 10px 0;
+    }
+
+    .burger-menu {
+        display: block;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    .burger-menu div {
+        width: 25px;
+        height: 3px;
+        background-color: white;
+        margin: 5px 0;
+    }
+
+    nav.active {
+        display: flex; /* Display the nav when burger menu is clicked */
+    }
+}
+
+/* For Very Small Devices (Phones in Portrait Mode) */
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    form {
+        padding: 15px;
+    }
+
+    form input,
+    form button {
+        font-size: 1rem;
+    }
 }

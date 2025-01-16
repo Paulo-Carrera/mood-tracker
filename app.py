@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, login_required, current_user, logout_user
 from dotenv import load_dotenv
 from supabase import create_client, Client
+from datetime import datetime, timedelta
 import os
 
 # Load environment variables
@@ -144,17 +145,29 @@ def track_mood():
             flash(f"Error tracking mood: {str(e)}", "error")
             return redirect(url_for("track_mood"))
 
+def fetch_all_moods_from_supabase():
+    # Replace this with your actual Supabase fetching logic
+    return supabase.table('moods').select('*').execute().data
 
-@app.route("/get_moods", methods=["GET"])
+@app.route('/get_moods', methods=["GET"])
 @login_required
 def get_moods():
     try:
+        # Fetch all moods for the logged-in user
         response = supabase.table("moods").select("*").eq("user_id", current_user.id).execute()
-        if response.error:
-            return jsonify({"error": response.error.message}), 400
-        return jsonify({"moods": response.data}), 200
+        all_moods = response.data if response.data else []
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        flash(f"Error fetching moods: {str(e)}", "error")
+        all_moods = []
+
+    # Render the get_moods.html template with the moods data
+    return render_template("get_moods.html", all_moods=all_moods)
+
+def fetch_all_moods_from_supabase():
+    # Replace this with your actual Supabase fetching logic
+    return supabase.table('moods').select('*').execute().data
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
