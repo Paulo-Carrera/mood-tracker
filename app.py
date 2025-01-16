@@ -145,11 +145,7 @@ def track_mood():
             flash(f"Error tracking mood: {str(e)}", "error")
             return redirect(url_for("track_mood"))
 
-def fetch_all_moods_from_supabase():
-    # Replace this with your actual Supabase fetching logic
-    return supabase.table('moods').select('*').execute().data
-
-@app.route('/get_moods', methods=["GET"])
+@app.route('/my_moods', methods=["GET"])
 @login_required
 def get_moods():
     try:
@@ -161,7 +157,7 @@ def get_moods():
         all_moods = []
 
     # Render the get_moods.html template with the moods data
-    return render_template("get_moods.html", all_moods=all_moods)
+    return render_template("my_moods.html", all_moods=all_moods)
 
 def fetch_all_moods_from_supabase():
     # Replace this with your actual Supabase fetching logic
