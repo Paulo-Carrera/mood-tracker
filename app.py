@@ -115,49 +115,64 @@ def logout():
 @app.route("/track_mood", methods=["GET", "POST"])
 @login_required
 def track_mood():
-    predefined_moods = ["Happy", "Sad", "Anxious", "Tense", "Excited", "Angry", "Stressed", "Relaxed"]
+    predefined_moods = [
+        "Happy", "Sad", "Overwhelmed", "Anxious", "Tense",
+        "Lonely", "Bored", "Excited", "Angry", "Depressed",
+        "Stressed", "Grateful", "Relaxed", "Hopeless", "Restless",
+    ]
     
     if request.method == "GET":
         return render_template("track_mood.html", moods=predefined_moods)
     
     if request.method == "POST":
-        mood = request.form.get("mood")
+        moods = request.form.getlist("mood")  # Get multiple moods
         note = request.form.get("note", "")
         
-        if not mood:
-            flash("Please select a mood", "error")
+        if not moods:
+            flash("Please select at least one mood", "error")
             return redirect(url_for("track_mood"))
         
         try:
-            response = supabase.table("moods").insert({
-                "user_id": current_user.id,
-                "mood": mood,
-                "note": note
-            }).execute()
+            # Insert each selected mood into the database
+            for mood in moods:
+                response = supabase.table("moods").insert({
+                    "user_id": current_user.id,
+                    "mood": mood,
+                    "note": note
+                }).execute()
+                
+                if response.error:
+                    flash(f"Error tracking mood: {response.error.message}", "error")
+                    return redirect(url_for("track_mood"))
             
-            if response.error:
-                flash(f"Error tracking mood: {response.error.message}", "error")
-                return redirect(url_for("track_mood"))
-            
-            flash("Mood tracked successfully!", "success")
+            flash("Moods tracked successfully!", "success")
             return redirect(url_for("home"))
         except Exception as e:
             flash(f"Error tracking mood: {str(e)}", "error")
             return redirect(url_for("track_mood"))
 
-@app.route('/my_moods', methods=["GET"])
+@app.route("/my_moods")
 @login_required
-def get_moods():
+def my_moods():
     try:
-        # Fetch all moods for the logged-in user
+        # Fetch moods from Supabase
         response = supabase.table("moods").select("*").eq("user_id", current_user.id).execute()
-        all_moods = response.data if response.data else []
-    except Exception as e:
-        flash(f"Error fetching moods: {str(e)}", "error")
-        all_moods = []
+        mood_rows = response.data  # Extract the rows
 
-    # Render the get_moods.html template with the moods data
-    return render_template("my_moods.html", all_moods=all_moods)
+        # Process and split combined moods
+        all_moods = []
+        for row in mood_rows:
+            if row["mood"] and row["created_at"]:  # Ensure mood and created_at are not None
+                # Split moods by comma and strip extra spaces
+                moods = [m.strip() for m in row["mood"].split(",")]
+                for mood in moods:
+                    all_moods.append({"mood": mood, "created_at": row["created_at"]})
+
+        return render_template("my_moods.html", all_moods=all_moods)
+    except Exception as e:
+        print("Error in my_moods route:", str(e))
+        flash("Could not load mood data.", "error")
+        return redirect(url_for("home"))
 
 def fetch_all_moods_from_supabase():
     # Replace this with your actual Supabase fetching logic

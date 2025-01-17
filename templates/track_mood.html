@@ -3,17 +3,88 @@
 {% block content %}
 <h2>Track Your Mood</h2>
 <form method="POST" action="/track_mood">
-    <p>Select your mood:</p>
-    {% for mood in moods %}
-    <div>
-        <input type="radio" id="{{ mood }}" name="mood" value="{{ mood }}" required>
-        <label for="{{ mood }}">{{ mood }}</label>
+    <p>Select your mood(s):</p>
+    <div id="bubble-container">
+        {% for mood in moods %}
+        <div class="bubble" data-mood="{{ mood }}">
+            {{ mood }}
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
+
+    <input type="hidden" id="selected-moods" name="mood" required>
     
     <label for="note">Notes (optional):</label>
     <textarea id="note" name="note"></textarea>
     
     <button type="submit">Submit</button>
 </form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const bubbles = document.querySelectorAll(".bubble");
+        const selectedMoodsInput = document.getElementById("selected-moods");
+        let selectedMoods = [];
+
+        bubbles.forEach(bubble => {
+            bubble.addEventListener("click", () => {
+                const mood = bubble.dataset.mood;
+
+                if (selectedMoods.includes(mood)) {
+                    // Deselect the mood
+                    selectedMoods = selectedMoods.filter(m => m !== mood);
+                    bubble.classList.remove("selected");
+                } else {
+                    // Select the mood
+                    selectedMoods.push(mood);
+                    bubble.classList.add("selected");
+                }
+
+                // Update the hidden input with selected moods
+                selectedMoodsInput.value = selectedMoods.join(",");
+            });
+        });
+    });
+</script>
+
+<style>
+    #bubble-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        margin: 20px 0;
+    }
+
+    .bubble {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100px;
+        height: 100px;
+        background: radial-gradient(circle, #ff94d4, #e29ff7);
+        border-radius: 50%;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        animation: float 4s infinite ease-in-out;
+        position: relative;
+        transition: transform 0.2s, background 0.2s;
+    }
+
+    .bubble:hover {
+        transform: scale(1.1);
+    }
+
+    .bubble.selected {
+        background: radial-gradient(circle, #ff94d4, #ff007f);
+        transform: scale(1.1);
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+        100% { transform: translateY(0); }
+    }
+</style>
 {% endblock %}

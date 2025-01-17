@@ -24,7 +24,16 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const allMoods = JSON.parse('{{ all_moods | tojson | safe }}');
+        let allMoods = JSON.parse('{{ all_moods | tojson | safe }}');
+
+        // Split combined moods into separate entries
+        allMoods = allMoods.flatMap(mood => {
+            const moods = mood.mood.split(',').map(m => m.trim()); // Split and trim each mood
+            return moods.map(m => ({
+                mood: m,
+                created_at: mood.created_at
+            }));
+        });
 
         // Helper function to filter moods by time range
         function filterMoodsByTimeRange(moods, days) {
