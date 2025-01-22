@@ -115,14 +115,16 @@ def logout():
 @app.route("/track_mood", methods=["GET", "POST"])
 @login_required
 def track_mood():
-    predefined_moods = [
-        "Happy", "Sad", "Overwhelmed", "Anxious", "Tense",
-        "Lonely", "Bored", "Excited", "Angry", "Depressed",
-        "Stressed", "Grateful", "Relaxed", "Hopeless", "Restless",
-    ]
+    categorized_moods = {
+    "positive": ["Happy", "Joyful", "Grateful", "Excited", "Peaceful", "Relaxed", "Optimistic", "Satisfied", "Loving"],
+    "negative": ["Sad", "Angry", "Anxious", "Frustrated", "Overwhelmed", "Hopeless", "Tense", "Jealous", "Ashamed"],
+    "neutral": ["Calm", "Content", "Indifferent", "Tired", "Uninterested", "Neutral", "Curious", "Mellow", "Accepting"],
+    "high-energy": ["Energetic", "Productive", "Motivated", "Inspired", "Focused", "Determined", "Adventurous", "Cheerful", "Playful"],
+    "low-energy": ["Drained", "Defeated", "Exhausted", "Lonely", "Melancholic", "Isolated", "Sleepy", "Burned Out", "Withdrawn"],
+}
     
     if request.method == "GET":
-        return render_template("track_mood.html", moods=predefined_moods)
+        return render_template("track_mood.html", categorized_moods=categorized_moods)
     
     if request.method == "POST":
         moods = request.form.getlist("mood")  # Get multiple moods
@@ -141,9 +143,9 @@ def track_mood():
                     "note": note
                 }).execute()
                 
-                if response.error:
-                    flash(f"Error tracking mood: {response.error.message}", "error")
-                    return redirect(url_for("track_mood"))
+                # if response.error:
+                #     flash(f"Error tracking mood: {response.error.message}", "error")
+                #     return redirect(url_for("track_mood"))
             
             flash("Moods tracked successfully!", "success")
             return redirect(url_for("home"))

@@ -4,10 +4,18 @@
 <h2>Track Your Mood</h2>
 <form method="POST" action="/track_mood">
     <p>Select your mood(s):</p>
+    
     <div id="bubble-container">
-        {% for mood in moods %}
-        <div class="bubble" data-mood="{{ mood }}">
-            {{ mood }}
+        {% for category, category_moods in categorized_moods.items() %}
+        <div class="category-section">
+            <!-- <h3>{{ category|capitalize }}</h3> -->
+            <div class="category-bubbles">
+                {% for mood in category_moods %}
+                <div class="bubble {{ category }}" data-mood="{{ mood }}">
+                    {{ mood }}
+                </div>
+                {% endfor %}
+            </div>
         </div>
         {% endfor %}
     </div>
@@ -15,7 +23,7 @@
     <input type="hidden" id="selected-moods" name="mood" required>
     
     <label for="note">Notes (optional):</label>
-    <textarea id="note" name="note"></textarea>
+    <textarea id="note" name="note" width="100%" height="100%"></textarea>
     
     <button type="submit">Submit</button>
 </form>
@@ -49,11 +57,23 @@
 
 <style>
     #bubble-container {
+        margin: 20px 0;
+    }
+
+    .category-section {
+        margin-bottom: 30px;
+    }
+
+    .category-section h3 {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .category-bubbles {
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
         justify-content: center;
-        margin: 20px 0;
     }
 
     .bubble {
@@ -62,7 +82,6 @@
         justify-content: center;
         width: 100px;
         height: 100px;
-        background: radial-gradient(circle, #ff94d4, #e29ff7);
         border-radius: 50%;
         color: white;
         font-weight: bold;
@@ -77,8 +96,30 @@
     }
 
     .bubble.selected {
-        background: radial-gradient(circle, #ff94d4, #ff007f);
+        background: grey;
+        outline: 4px solid white;
         transform: scale(1.1);
+    }
+
+    /* Define colors for mood categories */
+    .positive {
+        background: radial-gradient(circle, #a3ffb0, #53c253); /* Green */
+    }
+
+    .negative {
+        background: radial-gradient(circle, #ffaaaa, #d44b4b); /* Red */
+    }
+
+    .neutral {
+        background: radial-gradient(circle, #ffd480, #e6a300); /* Yellow */
+    }
+
+    .high-energy {
+        background: radial-gradient(circle, #80bfff, #0066cc); /* Blue */
+    }
+
+    .low-energy {
+        background: radial-gradient(circle, #d6aaff, #8a2be2); /* Purple */
     }
 
     @keyframes float {
