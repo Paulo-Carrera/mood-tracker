@@ -32,6 +32,8 @@ class User(UserMixin):
         self.email = email
         self.username = username
 
+# gunicorn app:app --bind 0.0.0.0:$PORT
+
 # Load user callback
 @login_manager.user_loader
 def load_user(user_id):

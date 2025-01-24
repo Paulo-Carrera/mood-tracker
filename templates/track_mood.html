@@ -13,7 +13,6 @@
         {% endfor %}
         {% for category, category_moods in categorized_moods.items() %}
         <div class="category-section">
-            <!-- <h3>{{ category|capitalize }}</h3> -->
             <div class="category-bubbles">
                 {% for mood in category_moods %}
                 <div class="bubble {{ category }}" data-mood="{{ mood }}">
@@ -28,7 +27,7 @@
     <input type="hidden" id="selected-moods" name="mood" required>
 
     <label for="note">Notes (optional):</label>
-    <textarea id="note" name="note"></textarea>
+    <textarea id="note" name="note" rows="5" cols="52.5"></textarea>
 
     <button type="submit">Submit</button>
 </form>
@@ -69,11 +68,6 @@
         margin-bottom: 30px;
     }
 
-    .category-section h3 {
-        text-align: center;
-        margin-bottom: 10px;
-    }
-
     .category-bubbles {
         display: flex;
         flex-wrap: wrap;
@@ -88,50 +82,48 @@
         justify-content: center;
         width: 100px;
         height: 100px;
-        background: radial-gradient(circle, #ff94d4, #e29ff7);
+        background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.7), rgba(173, 216, 230, 0.6), rgba(211, 211, 211, 0.4));
         border-radius: 50%;
-        color: white;
+        color: black;
         font-weight: bold;
         cursor: pointer;
-        transition: transform 0.2s, background 0.2s;
-        animation: float 4s infinite ease-in-out;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), inset 0 0 15px rgba(255, 255, 255, 0.5);
+        font-size: 16px;
     }
 
     .bubble:hover {
         transform: scale(1.1);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.6);
     }
 
-    .bubble.selected {
-        background: radial-gradient(circle, #ff94d4, #ff007f);
-        outline: 4px solid white;
-        transform: scale(1.1);
+    /* Selected bubbles per category */
+    .bubble.positive.selected {
+        background: radial-gradient(circle, #c1f7c1, #8deb8d); /* Greenish tones for positive */
+        box-shadow: 0 0 15px #37e837;
     }
 
-    /* Define colors for mood categories */
-    .positive {
-        background: radial-gradient(circle, #a3ffb0, #53c253); /* Green */
+    .bubble.negative.selected {
+        background: radial-gradient(circle, #f7c1c1, #f28d8d); /* Reddish tones for negative */
+        box-shadow: 0 0 15px #e83737;
     }
 
-    .negative {
-        background: radial-gradient(circle, #ffaaaa, #d44b4b); /* Red */
+    .bubble.neutral.selected {
+        background: radial-gradient(circle, #c1c1f7, #8d8deb); /* Bluish tones for neutral */
+        box-shadow: 0 0 15px #3737e8;
     }
 
-    .neutral {
-        background: radial-gradient(circle, #ffd480, #e6a300); /* Yellow */
+    .bubble.high-energy.selected {
+        background: radial-gradient(circle, #fff3b0, #ffdd70); /* Yellowish tones for high-energy */
+        box-shadow: 0 0 15px #ffd237;
     }
 
-    .high-energy {
-        background: radial-gradient(circle, #80bfff, #0066cc); /* Blue */
+    .bubble.low-energy.selected {
+        background: radial-gradient(circle, #ddd7f3, #b3a7e0); /* Purplish tones for low-energy */
+        box-shadow: 0 0 15px #a08de8;
     }
 
-    .low-energy {
-        background: radial-gradient(circle, #d6aaff, #8a2be2); /* Purple */
-    }
-
-    @keyframes float {
-        0% { transform: translateY(0); }
-        50% { transform: translateY(-20px); }
-        100% { transform: translateY(0); }
-    }
+    /* Add any other categories or styles here */
 </style>
+
 {% endblock %}

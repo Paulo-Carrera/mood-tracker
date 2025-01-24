@@ -89,7 +89,8 @@ form label {
 }
 
 form input {
-    width: 100%;
+    width: 95%;
+    margin-bottom: 20px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -138,6 +139,10 @@ form .error {
     right: 10px;
     cursor: pointer;
     color: #666;
+}
+
+.password-container i{
+    top:12px;
 }
 
 /* Responsive Styles */
