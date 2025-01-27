@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Mood Trends Over Time</h2>
+
+<!-- Dropdowns for Mood and Time Frame Selection -->
+<div>
+    <label for="moodSelect">Select Mood:</label>
+    <select id="moodSelect">
+        <option value="" disabled selected>Select a mood</option>
+        {% for mood in mood_data | map(attribute="mood") | unique %}
+        <option value="{{ mood }}">{{ mood }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="timeFrameSelect">Select Time Frame:</label>
+    <select id="timeFrameSelect">
+        <option value="day">Day</option>
+        <option value="week">Week</option>
+        <option value="month">Month</option>
+        <option value="year">Year</option>
+    </select>
+</div>
+
+<!-- Line Graph -->
+<div>
+    <canvas id="moodLineChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const moodData = JSON.parse('{{ mood_data | tojson | safe }}');
+
+        // Parse mood data for the graph
+        function getMoodData(selectedMood, timeFrame) {
+            const filteredMoods = moodData.filter(entry => entry.mood === selectedMood);
+
+            // Get the start date for the selected time frame
+            const now = new Date();
+            let startDate;
+            if (timeFrame === "day") {
+                startDate = new Date(now.setDate(now.getDate() - 1));
+            } else if (timeFrame === "week") {
+                startDate = new Date(now.setDate(now.getDate() - 7));
+            } else if (timeFrame === "month") {
+                startDate = new Date(now.setMonth(now.getMonth() - 1));
+            } else if (timeFrame === "year") {
+                startDate = new Date(now.setFullYear(now.getFullYear() - 1));
+            }
+
+            // Group by date and count occurrences within the time frame
+            const moodCounts = {};
+            filteredMoods.forEach(entry => {
+                const createdAt = new Date(entry.created_at);
+                if (createdAt >= startDate) {
+                    const date = createdAt.toLocaleDateString();
+                    moodCounts[date] = (moodCounts[date] || 0) + 1;
+                }
+            });
+
+            // Prepare labels and data arrays
+            const labels = Object.keys(moodCounts).sort((a, b) => new Date(a) - new Date(b));
+            const data = labels.map(label => moodCounts[label]);
+
+            return { labels, data };
+        }
+
+        // Initialize chart
+        const ctx = document.getElementById("moodLineChart").getContext("2d");
+        const chart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: [],
+                datasets: [{
+                    label: "Mood Frequency",
+                    data: [],
+                    borderColor: "rgba(75, 192, 192, 1)",
+                    backgroundColor: "rgba(75, 192, 192, 0.2)",
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: { title: { display: true, text: "Date" } },
+                    y: { title: { display: true, text: "Frequency" }, beginAtZero: true }
+                }
+            }
+        });
+
+        // Update chart when mood or time frame is selected
+        document.getElementById("moodSelect").addEventListener("change", updateChart);
+        document.getElementById("timeFrameSelect").addEventListener("change", updateChart);
+
+        function updateChart() {
+            const selectedMood = document.getElementById("moodSelect").value;
+            const timeFrame = document.getElementById("timeFrameSelect").value;
+
+            if (selectedMood && timeFrame) {
+                const moodData = getMoodData(selectedMood, timeFrame);
+
+                chart.data.labels = moodData.labels;
+                chart.data.datasets[0].data = moodData.data;
+                chart.update();
+            }
+        }
+    });
+</script>
+{% endblock %}

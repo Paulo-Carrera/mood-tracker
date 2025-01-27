@@ -150,7 +150,7 @@ def track_mood():
                 #     return redirect(url_for("track_mood"))
             
             flash("Moods tracked successfully!", "success")
-            return redirect(url_for("home"))
+            return redirect(url_for("my_moods"))
         except Exception as e:
             flash(f"Error tracking mood: {str(e)}", "error")
             return redirect(url_for("track_mood"))
@@ -182,7 +182,41 @@ def fetch_all_moods_from_supabase():
     # Replace this with your actual Supabase fetching logic
     return supabase.table('moods').select('*').execute().data
 
+@app.route("/mood_trend", methods=["GET"])
+@login_required
+def mood_trend():
+    try:
+        # Fetch moods from Supabase
+        response = supabase.table("moods").select("*").eq("user_id", current_user.id).execute()
+        mood_rows = response.data
 
+        # Debugging: Print the fetched rows
+        # print("Mood rows fetched:", mood_rows)
+
+        # Handle empty data
+        if not mood_rows:
+            flash("No mood data available.", "warning")
+            return render_template("mood_trend.html", mood_data=[])
+
+        # Process data to group by mood and date
+        mood_data = []
+        for row in mood_rows:
+            if row["mood"] and row["created_at"]:  # Ensure mood and created_at are not None
+                moods = [m.strip() for m in row["mood"].split(",")]  # Handle combined mood entries
+                for mood in moods:
+                    mood_data.append({
+                        "mood": mood,
+                        "created_at": row["created_at"]
+                    })
+
+        # Debugging: Print the processed data
+        # print("Processed mood data:", mood_data)
+
+        return render_template("mood_trend.html", mood_data=mood_data)
+    except Exception as e:
+        print("Error in mood_trend route:" + str(e))
+        flash("Could not load mood data.", "error")
+        return redirect(url_for("home"))
 
 if __name__ == "__main__":
     app.run(debug=True)
