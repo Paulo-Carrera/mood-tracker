@@ -114,7 +114,7 @@ def login():
 def logout():
     logout_user()
     flash("You have been logged out successfully!", "success")
-    return redirect(url_for('login'))
+    return redirect(url_for('home'))
 
 @app.route("/track_mood", methods=["GET", "POST"])
 @login_required
