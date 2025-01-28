@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>Welcome, {{ current_user.username }}!</h2>
-    <p>Start tracking your mood now.</p>
+    {% if current_user.is_authenticated %}
+        <h2>Welcome, {{ current_user.username }}!</h2>
+        <p>Start tracking your mood now.</p>
+    {% else %}
+        <p>Please <a href="/login">log in</a> to continue!</p>
+    {% endif %}
 {% endblock %}
-
