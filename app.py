@@ -76,10 +76,7 @@ def register():
                 "password": hashed_password,
                 "username": username
             }).execute()
-            if response.error:
-                flash(f"Error inserting user: {response.error.message}", "error")
-                return redirect(url_for('register'))
-            flash("User registered successfully!", "success")
+            flash("User registered successfully! You can now log in.", "success")
             return redirect(url_for('login'))
         except Exception as e:
             flash(f"Error inserting user: {str(e)}", "error")
