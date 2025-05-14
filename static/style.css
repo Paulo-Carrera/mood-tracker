@@ -8,7 +8,7 @@ body {
 
 /* Header Styles */
 header {
-    background-color: #e29ff7; /* Light purple */
+    background-color: #add8e6; /* Baby blue */
     color: white;
     padding: 20px 0;
     text-align: center;
@@ -47,13 +47,13 @@ main {
     max-width: 900px;
     margin: 40px auto;
     background-color: white;
-    border-radius: 8px; /* Rounded corners for the content */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Footer Styles */
 footer {
-    background-color: #e29ff7;
+    background-color: #add8e6;
     color: white;
     text-align: center;
     padding: 10px 0;
@@ -74,8 +74,8 @@ form {
     margin: 0 auto;
     background-color: #f9f9f9;
     padding: 20px;
-    border-radius: 8px; /* Rounded corners for the form */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 form div {
@@ -98,12 +98,12 @@ form input {
 }
 
 form input:focus {
-    border-color: #e29ff7; /* Highlight border on focus */
+    border-color: #add8e6;
     outline: none;
 }
 
 form button {
-    background-color: #e29ff7;
+    background-color: #add8e6;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -114,7 +114,7 @@ form button {
 }
 
 form button:hover {
-    background-color: #d17ee0; /* Darker purple on hover */
+    background-color: #87ceeb; /* Slightly darker baby blue */
 }
 
 form .error {
@@ -131,7 +131,7 @@ form .error {
 
 .password-container input {
     width: 100%;
-    padding-right: 30px; /* To make space for the eye icon */
+    padding-right: 30px;
 }
 
 .password-container .toggle-password {
@@ -141,13 +141,12 @@ form .error {
     color: #666;
 }
 
-.password-container i{
-    top:12px;
+.password-container i {
+    top: 12px;
 }
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-    /* Header & Nav Adjustments for Mobile */
     header {
         padding: 15px 0;
     }
@@ -157,7 +156,7 @@ form .error {
     }
 
     nav {
-        display: none; /* Hide the navigation by default */
+        display: none;
         flex-direction: column;
         align-items: center;
     }
@@ -183,11 +182,11 @@ form .error {
     }
 
     nav.active {
-        display: flex; /* Display the nav when burger menu is clicked */
+        display: flex;
     }
 }
 
-/* For Very Small Devices (Phones in Portrait Mode) */
+/* Very Small Devices */
 @media (max-width: 480px) {
     header h1 {
         font-size: 1.8rem;
